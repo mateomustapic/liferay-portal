@@ -11,14 +11,14 @@ import './SourceEditorToolbar.es';
  * Creates a Source Editor component to use for source code editing.
  */
 class SourceEditor extends Component {
-	
 	/**
 	 * @inheritDoc
 	 */
 	attached() {
 		this._helpTooltip = ClayTooltip.init({});
-		
-		this._helpTooltip.elementClasses = 'source-editor__fixed-text__help__tooltip';
+
+		this._helpTooltip.elementClasses =
+			'source-editor__fixed-text__help__tooltip';
 		this._helpTooltip.position = 'BottomCenter';
 		this._helpTooltip.selectors = ['.source-editor__fixed-text__help'];
 	}
@@ -61,7 +61,6 @@ SourceEditor.STATE = {
 	 */
 	_helpTooltip: Config.instanceOf(ClayTooltip),
 
- 	/**		/**
 	/**
 	 * List of tags for custom autocompletion in the HTML editor.
 	 *
