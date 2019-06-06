@@ -1,4 +1,5 @@
 import 'clay-progress-bar';
+import {Config} from 'metal-state';
 import Ajax from 'metal-ajax';
 import ClayTooltip from 'clay-tooltip';
 import PortletBase from 'frontend-js-web/liferay/PortletBase.es';
