@@ -16,7 +16,6 @@ import templates from './AdaptiveMediaProgress.soy';
  */
 
 class AdaptiveMediaProgress extends PortletBase {
-	
 	/**
 	 * @inheritDoc
 	 */
@@ -154,8 +153,6 @@ AdaptiveMediaProgress.STATE = {
 	 * @type {ClayTooltip}
 	 */
 	_progressTooltip: Config.instanceOf(ClayTooltip),
-
- 	/**
 
 	/**
 	 * Number of adapted images in the platform.
