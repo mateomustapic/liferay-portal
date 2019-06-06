@@ -1,4 +1,4 @@
-import 'frontend-js-web/liferay/compat/tooltip/Tooltip.es';
+import ClayTooltip from 'clay-tooltip';
 import Component from 'metal-component';
 import Soy from 'metal-soy';
 import {Config} from 'metal-state';
@@ -11,6 +11,25 @@ import './SourceEditorToolbar.es';
  * Creates a Source Editor component to use for source code editing.
  */
 class SourceEditor extends Component {
+	
+	/**
+	 * @inheritDoc
+	 */
+	attached() {
+		this._helpTooltip = ClayTooltip.init({});
+		
+		this._helpTooltip.elementClasses = 'source-editor__fixed-text__help__tooltip';
+		this._helpTooltip.position = 'BottomCenter';
+		this._helpTooltip.selectors = ['.source-editor__fixed-text__help'];
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	disposed() {
+		this._helpTooltip.dispose();
+	}
+
 	/**
 	 * Callback that propagates the <code>contentChanged</code> event when the
 	 * internal Ace Editor is modified.
@@ -32,6 +51,17 @@ class SourceEditor extends Component {
  * @type {!Object}
  */
 SourceEditor.STATE = {
+	/**
+	 * Instance of ClayTooltip for help tooltip
+	 *
+	 * @default undefined
+	 * @instance
+	 * @memberOf SourceEditor
+	 * @type {ClayTooltip}
+	 */
+	_helpTooltip: Config.instanceOf(ClayTooltip),
+
+ 	/**		/**
 	/**
 	 * List of tags for custom autocompletion in the HTML editor.
 	 *
