@@ -65,12 +65,12 @@ AUI.add(
 				var suffixMB = instance.get('suffixMB');
 
 				return Liferay.Util.formatStorage(size, {
-					addSpaceBeforeSuffix,
-					decimalSeparator,
-					denominator,
-					suffixGB,
-					suffixKB,
-					suffixMB
+					addSpaceBeforeSuffix: addSpaceBeforeSuffix,
+					decimalSeparator: decimalSeparator,
+					denominator: denominator,
+					suffixGB: suffixGB,
+					suffixKB: suffixKB,
+					suffixMB: suffixMB
 				});
 			}
 		};
