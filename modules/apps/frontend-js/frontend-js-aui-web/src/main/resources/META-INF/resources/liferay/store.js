@@ -17,10 +17,6 @@ AUI.add(
 	function(A) {
 		var Lang = A.Lang;
 
-		var isObject = Lang.isObject;
-
-		var TOKEN_SERIALIZE = 'serialize://';
-
 		var Store = function(key, value) {
 			var method;
 
@@ -33,9 +29,9 @@ AUI.add(
 			} else {
 				method = 'set';
 
-				if (isObject(key)) {
+				if (Lang.isObject(key)) {
 					method = 'setAll';
-				} else if (arguments.length == 1) {
+				} else if (arguments.length === 1) {
 					method = null;
 				}
 			}
@@ -47,98 +43,19 @@ AUI.add(
 
 		A.mix(Store, {
 			get: function(key, callback) {
-				var instance = this;
-
-				instance._getValues('get', key, callback);
+				Liferay.Util.Store.get(key, callback);
 			},
 
 			getAll: function(keys, callback) {
-				var instance = this;
-
-				instance._getValues('getAll', keys, callback);
+				Liferay.Util.Store.getAll(keys, callback);
 			},
 
 			set: function(key, value) {
-				var instance = this;
-
-				var obj = {};
-
-				if (isObject(value)) {
-					value = TOKEN_SERIALIZE + JSON.stringify(value);
-				}
-
-				obj[key] = value;
-
-				instance._setValues(obj);
+				Liferay.Util.Store.set(key, value);
 			},
 
 			setAll: function(obj) {
-				var instance = this;
-
-				instance._setValues(obj);
-			},
-
-			_getValues: function(cmd, key, callback) {
-				var instance = this;
-
-				var config = {
-					after: {
-						success: function(event) {
-							var responseData = this.get('responseData');
-
-							if (
-								Lang.isString(responseData) &&
-								responseData.indexOf(TOKEN_SERIALIZE) === 0
-							) {
-								try {
-									responseData = JSON.parse(
-										responseData.substring(
-											TOKEN_SERIALIZE.length
-										)
-									);
-								} catch (e) {}
-							}
-
-							callback(responseData);
-						}
-					},
-					data: {
-						cmd: cmd
-					}
-				};
-
-				config.data.key = key;
-
-				if (cmd == 'getAll') {
-					config.dataType = 'json';
-				}
-
-				instance._ioRequest(config);
-			},
-
-			_ioRequest: function(config) {
-				var instance = this;
-
-				config.data.p_auth = Liferay.authToken;
-
-				var doAsUserIdEncoded = themeDisplay.getDoAsUserIdEncoded();
-
-				if (doAsUserIdEncoded) {
-					config.data.doAsUserId = doAsUserIdEncoded;
-				}
-
-				A.io.request(
-					themeDisplay.getPathMain() + '/portal/session_click',
-					config
-				);
-			},
-
-			_setValues: function(data) {
-				var instance = this;
-
-				instance._ioRequest({
-					data: data
-				});
+				Liferay.Util.Store.setAll(obj);
 			}
 		});
 
@@ -146,6 +63,6 @@ AUI.add(
 	},
 	'',
 	{
-		requires: ['aui-io-request']
+		requires: ['aui-base']
 	}
 );
