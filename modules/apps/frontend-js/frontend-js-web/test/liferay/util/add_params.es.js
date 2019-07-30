@@ -17,43 +17,37 @@
 import addParams from '../../../src/main/resources/META-INF/resources/liferay/util/add_params.es';
 
 describe('Liferay.Util.addParams', () => {
-	const anchorHashSampleUrl = 'http://sampleurl.com#foo';
 	const sampleUrl = 'http://sampleurl.com';
-	const sampleUrlWithParams = 'http://sampleurl.com?param';
 
-	it('throws error if params is not an object or string', () => {
-		expect(() => addParams(0)).toThrow(
-			'Parameter params must be an object or string'
-		);
+	it('throws error if params is not an object or a string', () => {
+		expect(() => addParams(0)).toThrow('must be an object or a string');
 	});
 
 	it('throws error if url parameter is not a string', () => {
-		expect(() => addParams('foo', 0)).toThrow(
-			'Parameter url must be a string'
+		expect(() => addParams('foo=1', 0)).toThrow('must be a string');
+	});
+
+	it('appends key-value pairs of an object as parameters to the given URL', () => {
+		expect(addParams({foo: 1, bar: 2}, sampleUrl)).toEqual(
+			'http://sampleurl.com?foo=1&bar=2'
 		);
 	});
 
-	it('Adds the parameters to the portlet URL', () => {
-		expect(addParams({foo: 'bar', bar: 'foo'}, sampleUrl)).toEqual(
-			'http://sampleurl.com?foo=bar&bar=foo'
+	it('appends a string with parameters to the given URL', () => {
+		expect(addParams('   foo=1 ', sampleUrl)).toEqual(
+			'http://sampleurl.com?foo=1'
 		);
 	});
 
-	it('Trims parameter if it has space before and adds it to base url', () => {
-		expect(addParams('   foo', sampleUrl)).toEqual(
-			'http://sampleurl.com?foo'
+	it('sets anchor hash after base url and parameters', () => {
+		expect(addParams({foo: 1, bar: 2}, sampleUrl + '#anc')).toEqual(
+			'http://sampleurl.com?foo=1&bar=2#anc'
 		);
 	});
 
-	it('Sets anchor hash after base url and parameters', () => {
-		expect(
-			addParams({foo: 'bar', bar: 'foo'}, anchorHashSampleUrl)
-		).toEqual('http://sampleurl.com?foo=bar&bar=foo#foo');
-	});
-
-	it('Sets portlet url when base url has parameters', () => {
-		expect(
-			addParams({foo: 'bar', bar: 'foo'}, sampleUrlWithParams)
-		).toEqual('http://sampleurl.com?param&foo=bar&bar=foo');
+	it('appends parameters to the given URL with existing parameters', () => {
+		expect(addParams({foo: 1, bar: 2}, sampleUrl + '?abc=0&foo=4')).toEqual(
+			'http://sampleurl.com?abc=0&foo=4&foo=1&bar=2'
+		);
 	});
 });
