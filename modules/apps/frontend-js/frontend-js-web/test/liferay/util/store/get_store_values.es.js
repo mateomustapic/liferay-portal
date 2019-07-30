@@ -18,18 +18,16 @@ import getStoreValues from '../../../../src/main/resources/META-INF/resources/li
 
 describe('Liferay.Util.Store.getStoreValues', () => {
 	it('throws error if keys parameter is not an array', () => {
-		expect(() => getStoreValues(0)).toThrow(
-			'Parameter keys must be an array'
-		);
+		expect(() => getStoreValues(0)).toThrow('must be an array');
 	});
 
 	it('throws error if callback parameter is not a function', () => {
-		expect(() => getStoreValues(['foo'], 'bar')).toThrow(
-			'Parameter callback must be a function'
-		);
+		expect(() => getStoreValues([], 'bar')).toThrow('must be a function');
 	});
 
-	it('Makes the request for given parameters', () => {
+	it('gets values of Store entries with given keys', () => {
+		let globalLiferay = global.Liferay;
+
 		global.Liferay = {
 			authToken: 'abcd',
 			ThemeDisplay: {
@@ -43,20 +41,28 @@ describe('Liferay.Util.Store.getStoreValues', () => {
 		};
 
 		global.fetch = jest.fn((resource, init) => {
-			const formData = new FormData();
-			formData.append('key', '["aa","bb"]');
-
 			expect(resource).toEqual(
 				'http://sampleurl.com/portal/session_click?cmd=getAll&p_auth=abcd&doAsUserId=efgh'
 			);
 
-			expect(init).toEqual({
-				body: formData,
-				credentials: 'include',
-				method: 'POST'
-			});
+			const formData = new FormData();
 
-			jest.fn().mockImplementation(() => Promise.resolve(['aa', 'bb']));
+			formData.append('key', '["foo","bar"]');
+
+			expect(init.body).toEqual(formData);
+			expect(init.method).toEqual('POST');
+
+			return Promise.resolve({
+				json: jest.fn(() => Promise.resolve('{foo: 1, bar: 2}'))
+			});
 		});
+
+		const callback = values => {
+			expect(values).toEqual('{foo: 1, bar: 2}');
+		};
+
+		getStoreValues(['foo', 'bar'], callback);
+
+		global.Liferay = globalLiferay;
 	});
 });

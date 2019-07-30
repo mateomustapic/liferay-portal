@@ -17,14 +17,18 @@
 import setStoreValue from '../../../../src/main/resources/META-INF/resources/liferay/util/store/set_store_value.es';
 
 describe('Liferay.Util.Store.setStoreValue', () => {
-	let globalLiferay;
-
-	afterEach(() => {
-		global.Liferay = globalLiferay;
+	it('throws error if key parameter is not a string', () => {
+		expect(() => setStoreValue(0, '')).toThrow('must be a string');
 	});
 
-	beforeEach(() => {
-		globalLiferay = global.Liferay;
+	it('throws error if value parameter is not an object or string', () => {
+		expect(() => setStoreValue('', 0)).toThrow(
+			'must be boolean or an object or string'
+		);
+	});
+
+	it('sets the value of a Store entry with given key', () => {
+		let globalLiferay = global.Liferay;
 
 		global.Liferay = {
 			authToken: 'abcd',
@@ -37,38 +41,25 @@ describe('Liferay.Util.Store.setStoreValue', () => {
 				})
 			}
 		};
-	});
 
-	it('throws error if key parameter is not a string', () => {
-		expect(() => setStoreValue(0, '')).toThrow(
-			'Parameter key must be a string'
-		);
-	});
+		const key = 'foo';
+		const value = 'abc';
 
-	it('throws error if value parameter is not an object or string', () => {
-		expect(() => setStoreValue('', 0)).toThrow(
-			'Parameter value must be boolean or an object or string'
-		);
-	});
-
-	it('applies default settings if none are given', () => {
 		global.fetch = jest.fn((resource, init) => {
-			const formData = new FormData();
-			formData.append('key', 'bar');
-
 			expect(resource).toEqual(
 				'http://sampleurl.com/portal/session_click?p_auth=abcd&doAsUserId=efgh'
 			);
 
-			expect(init).toEqual({
-				body: formData,
-				credentials: 'include',
-				method: 'POST'
-			});
+			const formData = new FormData();
 
-			return Promise.resolve();
+			formData.append(key, value);
+
+			expect(init.body).toEqual(formData);
+			expect(init.method).toEqual('POST');
 		});
 
-		setStoreValue('key', 'bar');
+		setStoreValue(key, value);
+
+		global.Liferay = globalLiferay;
 	});
 });

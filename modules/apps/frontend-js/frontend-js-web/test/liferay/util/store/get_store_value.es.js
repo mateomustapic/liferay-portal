@@ -29,7 +29,9 @@ describe('Liferay.Util.Store.getStoreValue', () => {
 		);
 	});
 
-	it('Makes the request for given parameters', () => {
+	it('gets the value of a Store entry with the given key', () => {
+		let globalLiferay = global.Liferay;
+
 		global.Liferay = {
 			authToken: 'abcd',
 			ThemeDisplay: {
@@ -42,13 +44,24 @@ describe('Liferay.Util.Store.getStoreValue', () => {
 			}
 		};
 
+		const storedValue = 'fooValue';
+
 		global.fetch = jest.fn(resource => {
 			expect(resource).toEqual(
 				'http://sampleurl.com/portal/session_click?cmd=get&key=foo&p_auth=abcd&doAsUserId=efgh'
 			);
-			return Promise.resolve();
+
+			return Promise.resolve({
+				text: jest.fn(() => Promise.resolve(storedValue))
+			});
 		});
 
-		jest.fn().mockImplementation(() => Promise.resolve('foo'));
+		const callback = value => {
+			expect(value).toEqual(storedValue);
+		};
+
+		getStoreValue('foo', callback);
+
+		global.Liferay = globalLiferay;
 	});
 });

@@ -17,14 +17,12 @@
 import setStoreValues from '../../../../src/main/resources/META-INF/resources/liferay/util/store/set_store_values.es';
 
 describe('Liferay.Util.Store.setStoreValues', () => {
-	let globalLiferay;
-
-	afterEach(() => {
-		global.Liferay = globalLiferay;
+	it('throws error if key parameter is not an object', () => {
+		expect(() => setStoreValues(0)).toThrow('must be an object');
 	});
 
-	beforeEach(() => {
-		globalLiferay = global.Liferay;
+	it('sets values of Store entries that match keys from given data object', () => {
+		let globalLiferay = global.Liferay;
 
 		global.Liferay = {
 			authToken: 'abcd',
@@ -37,30 +35,22 @@ describe('Liferay.Util.Store.setStoreValues', () => {
 				})
 			}
 		};
-	});
 
-	it('throws error if key parameter is not an object', () => {
-		expect(() => setStoreValues(0)).toThrow('must be an object');
-	});
-
-	it('applies default settings if none are given', () => {
 		global.fetch = jest.fn((resource, init) => {
-			const formData = new FormData();
-			formData.append('foo', 'bar');
-
 			expect(resource).toEqual(
 				'http://sampleurl.com/portal/session_click?p_auth=abcd&doAsUserId=efgh'
 			);
 
-			expect(init).toEqual({
-				body: formData,
-				credentials: 'include',
-				method: 'POST'
-			});
+			const formData = new FormData();
 
-			return Promise.resolve();
+			formData.append('foo', 'abc');
+
+			expect(init.body).toEqual(formData);
+			expect(init.method).toEqual('POST');
 		});
 
-		setStoreValues({foo: 'bar'});
+		setStoreValues({foo: 'abc'});
+
+		global.Liferay = globalLiferay;
 	});
 });
