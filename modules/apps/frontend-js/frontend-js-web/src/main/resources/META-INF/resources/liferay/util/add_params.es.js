@@ -14,14 +14,15 @@
 
 /**
  * Appends given parameters to the given URL.
- * @param {String | Object} params Parameters to be added on to the base url
+ * @param {String | Object} params Parameters to be added on to the base url.
+ * If String, this argument must be in format 'key=value'.
  * @param {String} url Base url
- * @return {String} finalUrl URL constructed from base url and params
+ * @return {String} URL constructed from base url and params
  * @review
  */
 export default function addParams(params, url) {
 	if (typeof params !== 'object' && typeof params !== 'string') {
-		throw new TypeError('Parameter params must be an object or string');
+		throw new TypeError('Parameter params must be an object or a string');
 	}
 
 	if (typeof url !== 'string') {
