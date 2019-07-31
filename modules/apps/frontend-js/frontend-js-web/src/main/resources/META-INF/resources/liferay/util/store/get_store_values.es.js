@@ -57,7 +57,7 @@ export default function getStoreValues(keys, callback) {
 		body: formData
 	})
 		.then(response => {
-			response.json();
+			return response.json();
 		})
 		.then(response => {
 			if (callback) {

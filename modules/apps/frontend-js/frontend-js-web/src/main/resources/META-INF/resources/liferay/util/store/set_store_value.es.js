@@ -46,9 +46,9 @@ export default function setStoreValue(key, value) {
 
 	const doAsUserIdEncoded = Liferay.ThemeDisplay.getDoAsUserIdEncoded();
 
-	const formData = objectToFormData({
-		key: value
-	});
+	const formData = new FormData();
+
+	formData.append(key, value);
 
 	const parameters = {
 		p_auth: Liferay.authToken
