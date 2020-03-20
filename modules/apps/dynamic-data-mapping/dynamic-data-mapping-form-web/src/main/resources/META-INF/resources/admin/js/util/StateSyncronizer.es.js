@@ -28,8 +28,8 @@ class StateSyncronizer extends Component {
 				'change',
 				this._handleDescriptionEditorChanged.bind(this)
 			),
-			nameEditor.on('change', this._handleNameEditorChanged.bind(this))
 		);
+		nameEditor.addEventListener('change', this._handleNameEditorChanged.bind(this));
 
 		if (translationManager) {
 			this._translationManagerHandles = [
@@ -54,7 +54,10 @@ class StateSyncronizer extends Component {
 	}
 
 	disposed() {
+		const {nameEditor} = this.props;
 		this._eventHandler.removeAllListeners();
+
+		nameEditor.removeEventListener('change', this._handleNameEditorChanged.bind(this));
 
 		if (this._translationManagerHandles) {
 			this._translationManagerHandles.forEach(handle => handle.detach());
@@ -157,7 +160,7 @@ class StateSyncronizer extends Component {
 			name = localizedName[this.getDefaultLanguageId()];
 		}
 
-		window[nameEditor.name].setHTML(name);
+		window[nameEditor.name].value = name;
 	}
 
 	syncInputs() {
@@ -267,7 +270,7 @@ class StateSyncronizer extends Component {
 		const {localizedName, nameEditor} = this.props;
 		const editor = window[nameEditor.name];
 
-		localizedName[this.getEditingLanguageId()] = editor.getHTML();
+		localizedName[this.getEditingLanguageId()] = editor.value;
 	}
 }
 

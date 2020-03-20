@@ -103,18 +103,13 @@ renderResponse.setTitle((formInstance == null) ? LanguageUtil.get(request, "new-
 
 		<div class="ddm-form-basic-info">
 			<div class="container-fluid-1280">
-				<h1>
-					<liferay-ui:input-editor
-						autoCreate="<%= false %>"
-						contents="<%= HtmlUtil.escapeAttribute(ddmFormAdminDisplayContext.getFormName()) %>"
-						cssClass="ddm-form-name"
-						editorName="alloyeditor"
-						name="nameEditor"
-						placeholder="untitled-form"
-						showSource="<%= false %>"
-					/>
-				</h1>
-
+				<aui:input
+					cssClass="ddm-form-name"
+					label=""
+					name="nameEditor"
+					placeholder="untitled-form"
+					value="<%= HtmlUtil.escapeAttribute(ddmFormAdminDisplayContext.getFormName()) %>"
+				/>
 				<h5>
 					<liferay-ui:input-editor
 						autoCreate="<%= false %>"
