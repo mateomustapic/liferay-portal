@@ -32,4 +32,6 @@ public class SimpleEditorConstants {
 	 */
 	public static final String ATTRIBUTE_NAMESPACE = "liferay-ui:input-editor";
 
+	public static final String RESOURCE_TYPE = "simpleeditor";
+
 }

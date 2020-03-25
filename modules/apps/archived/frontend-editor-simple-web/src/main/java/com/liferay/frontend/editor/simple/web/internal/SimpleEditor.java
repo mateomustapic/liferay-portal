@@ -17,7 +17,6 @@ package com.liferay.frontend.editor.simple.web.internal;
 import com.liferay.frontend.editor.EditorRenderer;
 import com.liferay.frontend.editor.simple.web.internal.constants.SimpleEditorConstants;
 import com.liferay.portal.kernel.editor.Editor;
-import com.liferay.portal.kernel.servlet.PortalWebResourceConstants;
 
 import java.util.Map;
 
@@ -60,7 +59,7 @@ public class SimpleEditor implements Editor, EditorRenderer {
 
 	@Override
 	public String getResourceType() {
-		return PortalWebResourceConstants.RESOURCE_TYPE_EDITOR_SIMPLEEDITOR;
+		return SimpleEditorConstants.RESOURCE_TYPE;
 	}
 
 	@Activate

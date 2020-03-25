@@ -14,7 +14,7 @@
 
 package com.liferay.frontend.editor.simple.web.internal;
 
-import com.liferay.portal.kernel.servlet.PortalWebResourceConstants;
+import com.liferay.frontend.editor.simple.web.internal.constants.SimpleEditorConstants;
 import com.liferay.portal.kernel.servlet.PortalWebResources;
 
 import javax.servlet.ServletContext;
@@ -43,7 +43,7 @@ public class SimpleEditorPortalWebResources implements PortalWebResources {
 
 	@Override
 	public String getResourceType() {
-		return PortalWebResourceConstants.RESOURCE_TYPE_EDITOR_SIMPLEEDITOR;
+		return SimpleEditorConstants.RESOURCE_TYPE;
 	}
 
 	@Override
