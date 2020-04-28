@@ -55,6 +55,7 @@ import getPortletNamespace from './util/get_portlet_namespace.es';
 import isPhone from './util/is_phone';
 import isTablet from './util/is_tablet';
 import navigate from './util/navigate.es';
+import normalizeFriendlyURL from './util/normalize_friendly_url';
 import ns from './util/ns.es';
 import objectToURLSearchParams from './util/object_to_url_search_params.es';
 import createActionURL from './util/portlet_url/create_action_url.es';
@@ -145,6 +146,11 @@ Liferay.Util.navigate = navigate;
 Liferay.Util.ns = ns;
 Liferay.Util.objectToFormData = objectToFormData;
 Liferay.Util.objectToURLSearchParams = objectToURLSearchParams;
+
+/**
+ * @deprecated As of Athanasius (7.3.x), replaced by `import {normalizeFriendlyURL} from 'frontend-js-web'`
+ */
+Liferay.Util.normalizeFriendlyURL = normalizeFriendlyURL;
 
 Liferay.Util.PortletURL = {
 	createActionURL,
