@@ -920,6 +920,9 @@
 			form.submit();
 		},
 
+		/**
+		 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+		 */
 		toNumber(value) {
 			return parseInt(value, 10) || 0;
 		},
