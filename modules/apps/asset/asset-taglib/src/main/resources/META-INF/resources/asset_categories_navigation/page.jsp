@@ -16,6 +16,8 @@
 
 <%@ include file="/asset_categories_navigation/init.jsp" %>
 
+<h1>ASSET CATEGORIES NAVIGATION</h1>
+
 <%
 AssetCategoriesNavigationDisplayContext assetCategoriesNavigationDisplayContext = new AssetCategoriesNavigationDisplayContext(request, renderResponse);
 
@@ -100,3 +102,18 @@ if (assetCategoriesNavigationDisplayContext.getCategoryId() > 0) {
 		}
 	});
 </aui:script>
+
+<%
+Map<String, Object> data = HashMapBuilder.<String, Object>put(
+	"categories", assetCategoriesNavigationDisplayContext.getCategories()
+).put(
+	"namespace", namespace
+).build();
+%>
+
+<div>
+	<react:component
+		data="<%= data %>"
+		module="asset_categories_navigation/js/AssetCategoriesNavigationTreeView"
+	/>
+</div>
