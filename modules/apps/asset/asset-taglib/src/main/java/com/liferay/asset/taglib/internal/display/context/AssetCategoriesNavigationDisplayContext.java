@@ -23,13 +23,16 @@ import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.portlet.PortletURL;
 import javax.portlet.RenderResponse;
@@ -76,6 +79,23 @@ public class AssetCategoriesNavigationDisplayContext {
 		sb.append("</ul></div>");
 
 		return sb.toString();
+	}
+
+	public List<Map<String, Object>> getCategories() throws PortalException {
+		List<Map<String, Object>> categoriesList = new ArrayList<>();
+
+		for (AssetVocabulary vocabulary : getVocabularies()) {
+			List<AssetCategory> categories =
+				AssetCategoryServiceUtil.getVocabularyRootCategories(
+					vocabulary.getGroupId(), vocabulary.getVocabularyId(),
+					QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+
+			for (AssetCategory category : categories) {
+				categoriesList.add(_getCategory(category));
+			}
+		}
+
+		return categoriesList;
 	}
 
 	public long getCategoryId() {
@@ -162,6 +182,47 @@ public class AssetCategoriesNavigationDisplayContext {
 
 			sb.append("</li>");
 		}
+	}
+
+	private Map<String, Object> _getCategory(AssetCategory category) {
+		return HashMapBuilder.<String, Object>put(
+			"categoryId", category.getCategoryId()
+		).put(
+			"childCategories",
+			() -> {
+				Map<String, Object> childCategoriesMap = new HashMap<>();
+
+				List<AssetCategory> childCategories =
+					AssetCategoryServiceUtil.getChildCategories(
+						category.getCategoryId());
+
+				for (AssetCategory childCategory : childCategories) {
+					childCategoriesMap.put(
+						String.valueOf(childCategory.getCategoryId()),
+						_getCategory(childCategory));
+				}
+
+				return childCategoriesMap;
+			}
+		).put(
+			"name",
+			HtmlUtil.escape(category.getTitle(_themeDisplay.getLocale()))
+		).put(
+			"url",
+			() -> {
+				PortletURL portletURL = _renderResponse.createRenderURL();
+
+				if (getCategoryId() == category.getCategoryId()) {
+					portletURL.setParameter("categoryId", StringPool.BLANK);
+				}
+				else {
+					portletURL.setParameter(
+						"categoryId", String.valueOf(category.getCategoryId()));
+				}
+
+				return HtmlUtil.escape(portletURL.toString());
+			}
+		).build();
 	}
 
 	private Long _categoryId;
