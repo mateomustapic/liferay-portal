@@ -16,6 +16,8 @@
 
 <%@ include file="/asset_categories_navigation/init.jsp" %>
 
+<h1>ASSET CATEGORIES NAVIGATION</h1>
+
 <%
 boolean hidePortletWhenEmpty = GetterUtil.getBoolean((String)request.getAttribute("liferay-asset:asset-tags-navigation:hidePortletWhenEmpty"));
 long[] vocabularyIds = (long[])request.getAttribute("liferay-asset:asset-tags-navigation:vocabularyIds");
@@ -122,6 +124,25 @@ if (categoryId > 0) {
 		}
 	});
 </aui:script>
+
+<%
+List<AssetCategory> categories = new ArrayList<AssetCategory>();
+
+for (AssetVocabulary vocabulary : vocabularies) {
+	categories = AssetCategoryServiceUtil.getVocabularyRootCategories(vocabulary.getGroupId(), vocabulary.getVocabularyId(), QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+}
+
+Map<String, Object> data = HashMapBuilder.<String, Object>put("categories", categories).put(
+		"namespace", liferayPortletResponse.getNamespace()
+	).build();
+%>
+
+<div>
+	<react:component
+		data="<%= data %>"
+		module="asset_categories_navigation/js/AssetCategoriesNavigationTreeView"
+	/>
+</div>
 
 <%!
 private void _buildCategoriesNavigation(List<AssetCategory> categories, long categoryId, PortletURL portletURL, ThemeDisplay themeDisplay, StringBundler sb) throws Exception {
