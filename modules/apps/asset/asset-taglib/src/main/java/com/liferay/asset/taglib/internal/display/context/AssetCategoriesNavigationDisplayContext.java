@@ -205,6 +205,8 @@ public class AssetCategoriesNavigationDisplayContext {
 				return childCategoriesMap;
 			}
 		).put(
+			"id", category.getCategoryId()
+		).put(
 			"name",
 			HtmlUtil.escape(category.getTitle(_themeDisplay.getLocale()))
 		).put(
