@@ -30,7 +30,6 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -188,21 +187,20 @@ public class AssetCategoriesNavigationDisplayContext {
 		return HashMapBuilder.<String, Object>put(
 			"categoryId", category.getCategoryId()
 		).put(
-			"childCategories",
+			"children",
 			() -> {
-				Map<String, Object> childCategoriesMap = new HashMap<>();
+				List<Map<String, Object>> childCategoriesList =
+					new ArrayList<>();
 
 				List<AssetCategory> childCategories =
 					AssetCategoryServiceUtil.getChildCategories(
 						category.getCategoryId());
 
 				for (AssetCategory childCategory : childCategories) {
-					childCategoriesMap.put(
-						String.valueOf(childCategory.getCategoryId()),
-						_getCategory(childCategory));
+					childCategoriesList.add(_getCategory(childCategory));
 				}
 
-				return childCategoriesMap;
+				return childCategoriesList;
 			}
 		).put(
 			"id", category.getCategoryId()
@@ -224,6 +222,8 @@ public class AssetCategoriesNavigationDisplayContext {
 
 				return HtmlUtil.escape(portletURL.toString());
 			}
+		).put(
+			"vocabularyId", category.getVocabularyId()
 		).build();
 	}
 
