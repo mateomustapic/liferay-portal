@@ -21,6 +21,7 @@
 <%@ taglib uri="http://liferay.com/tld/aui" prefix="aui" %><%@
 taglib uri="http://liferay.com/tld/frontend" prefix="liferay-frontend" %><%@
 taglib uri="http://liferay.com/tld/portlet" prefix="liferay-portlet" %><%@
+taglib uri="http://liferay.com/tld/react" prefix="react" %><%@
 taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme" %><%@
 taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %><%@
 taglib uri="http://liferay.com/tld/util" prefix="liferay-util" %>
@@ -30,6 +31,7 @@ page import="com.liferay.portal.kernel.portlet.PortletProviderUtil" %><%@
 page import="com.liferay.portal.kernel.security.permission.ActionKeys" %><%@
 page import="com.liferay.portal.kernel.service.permission.PortletPermissionUtil" %><%@
 page import="com.liferay.portal.kernel.util.Constants" %><%@
+page import="com.liferay.portal.kernel.util.HashMapBuilder" %><%@
 page import="com.liferay.portal.kernel.util.HtmlUtil" %><%@
 page import="com.liferay.portal.kernel.util.ParamUtil" %><%@
 page import="com.liferay.portal.kernel.util.PrefsParamUtil" %><%@
@@ -46,7 +48,8 @@ page import="com.liferay.wiki.service.WikiNodeLocalServiceUtil" %><%@
 page import="com.liferay.wiki.service.WikiNodeServiceUtil" %><%@
 page import="com.liferay.wiki.service.WikiPageServiceUtil" %>
 
-<%@ page import="java.util.List" %>
+<%@ page import="java.util.List" %><%@
+page import="java.util.Map" %>
 
 <%@ page import="javax.portlet.PortletURL" %>
 

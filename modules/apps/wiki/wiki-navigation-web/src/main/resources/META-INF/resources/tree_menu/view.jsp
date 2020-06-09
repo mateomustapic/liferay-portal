@@ -28,6 +28,22 @@ viewURL.setParameter("mvcRenderCommandName", "/wiki/view_page");
 List<MenuItem> menuItems = MenuItem.fromWikiNode(selNodeId, depth, viewURL);
 %>
 
+<h1>WIKI NAVIGATION TEST</h1>
+
+<div>
+
+	<%
+	Map<String, Object> data = HashMapBuilder.<String, Object>put(
+		"menuItems", menuItems
+	).build();
+	%>
+
+	<react:component
+		data="<%= data %>"
+		module="tree_menu/js/WikiPageListTreeView"
+	/>
+</div>
+
 <c:choose>
 	<c:when test="<%= !menuItems.isEmpty() %>">
 		<%= _buildTreeMenuHTML(menuItems, title, true) %>
