@@ -78,7 +78,7 @@ public class CKEditorConfigContributor extends BaseCKEditorConfigContributor {
 			"entities", Boolean.FALSE
 		);
 
-		String extraPlugins = "a11yhelpbtn,itemselector,lfrpopup,media";
+		String extraPlugins = "a11ychecker,a11yhelpbtn,itemselector,lfrpopup,media";
 
 		boolean inlineEdit = GetterUtil.getBoolean(
 			(String)inputEditorTaglibAttributes.get(
@@ -208,6 +208,7 @@ public class CKEditorConfigContributor extends BaseCKEditorConfigContributor {
 			jsonArray.put(toJSONArray("['Source']"));
 		}
 
+		jsonArray.put(toJSONArray("['A11ychecker']"));
 		jsonArray.put(toJSONArray("['A11YBtn']"));
 
 		return jsonArray;
@@ -235,6 +236,7 @@ public class CKEditorConfigContributor extends BaseCKEditorConfigContributor {
 			jsonArray.put(toJSONArray("['Source']"));
 		}
 
+		jsonArray.put(toJSONArray("['A11ychecker']"));
 		jsonArray.put(toJSONArray("['A11YBtn']"));
 
 		return jsonArray;
@@ -275,6 +277,7 @@ public class CKEditorConfigContributor extends BaseCKEditorConfigContributor {
 			jsonArray.put(toJSONArray("['Source']"));
 		}
 
+		jsonArray.put(toJSONArray("['A11ychecker']"));
 		jsonArray.put(toJSONArray("['A11YBtn']"));
 
 		return jsonArray;
@@ -325,6 +328,7 @@ public class CKEditorConfigContributor extends BaseCKEditorConfigContributor {
 			jsonArray.put(toJSONArray("['Source']"));
 		}
 
+		jsonArray.put(toJSONArray("['A11ychecker']"));
 		jsonArray.put(toJSONArray("['A11YBtn']"));
 
 		return jsonArray;
