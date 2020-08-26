@@ -53,5 +53,94 @@ CKEDITOR.on('dialogDefinition', (event) => {
 		};
 
 		Liferay.once('destroyPortlet', clearEventHandler);
+
+		if (dialog.getName() === 'image2') {
+			var infoTab = dialogDefinition.getContents('info');
+
+			var spacingBox = {
+				children: [
+					{
+						children: [
+							{
+								commit(widget) {
+									widget.setData('hspace', this.getValue());
+
+									var hspace = widget.data.hspace;
+
+									var imageElement = widget.parts.image;
+									if (imageElement) {
+										if (hspace) {
+											imageElement.setStyle(
+												'margin-left',
+												`${hspace}px`
+											);
+											imageElement.setStyle(
+												'margin-right',
+												`${hspace}px`
+											);
+										}
+									}
+								},
+								id: 'hspace',
+								label: 'HSpace',
+								requiredContent:
+									'img{margin-left,margin-right}',
+								setup(widget) {
+									this.setValue(widget.data.hspace);
+								},
+								type: 'text',
+
+								validate: CKEDITOR.dialog.validate.integer(
+									'Error! HSpace must be a whole number.'
+								),
+							},
+						],
+						type: 'hbox',
+					},
+					{
+						children: [
+							{
+								commit(widget) {
+									widget.setData('vspace', this.getValue());
+
+									var vspace = widget.data.vspace;
+
+									var imageElement = widget.parts.image;
+									if (imageElement) {
+										if (vspace) {
+											imageElement.setStyle(
+												'margin-bottom',
+												`${vspace}px`
+											);
+											imageElement.setStyle(
+												'margin-top',
+												`${vspace}px`
+											);
+										}
+									}
+								},
+								id: 'vspace',
+								label: 'VSpace',
+								requiredContent:
+									'img{margin-top,margin-bottom}',
+								setup(widget) {
+									this.setValue(widget.data.vspace);
+								},
+								type: 'text',
+
+								validate: CKEDITOR.dialog.validate.integer(
+									'Error! VSpace must be a whole number.'
+								),
+							},
+						],
+						type: 'hbox',
+					},
+				],
+				id: 'spacingBox',
+				type: 'hbox',
+			};
+
+			infoTab.add(spacingBox);
+		}
 	}
 });
