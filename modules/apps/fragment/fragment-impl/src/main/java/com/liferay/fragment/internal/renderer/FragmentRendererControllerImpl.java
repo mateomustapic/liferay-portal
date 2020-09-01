@@ -38,6 +38,7 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.AggregateResourceBundleLoader;
 import com.liferay.portal.kernel.util.ResourceBundleLoader;
 import com.liferay.portal.kernel.util.ResourceBundleLoaderUtil;
+import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.taglib.servlet.PipingServletResponse;
@@ -135,7 +136,12 @@ public class FragmentRendererControllerImpl
 
 		sb.append("<div class=\"alert alert-danger m-2\">");
 
-		String errorMessage = "an-unexpected-error-occurred";
+		ResourceBundle resourceBundle = ResourceBundleUtil.getBundle(
+			"content.Language", getClass());
+
+		String errorMessage = LanguageUtil.get(
+			resourceBundle,
+			"the-remote-web-app-is-no-longer-available-or-was-deleted");
 
 		Throwable throwable = exception.getCause();
 
